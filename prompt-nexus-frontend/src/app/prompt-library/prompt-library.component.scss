@@ -1,0 +1,881 @@
+/* 
+  ===========================================================================
+  PROMPT LIBRARY STYLES - PROMPT NEXUS CHALLENGE
+  ===========================================================================
+  
+  FILE: prompt-library.component.scss
+  DESCRIPTION: Comprehensive styling for prompt library component with
+               responsive design and Material Design integration
+  
+  DEVELOPED BY: Ameen Pasha A
+  COMPANY: Stratagile
+  CLIENT: Emplay
+  PROJECT: Prompt Nexus Challenge
+  
+  DESIGN SYSTEM:
+  - Primary Color: #512da8 (Purple - App/Nexus branding)
+  - Complexity Colors:
+    * Simple: #2196f3 (Blue)
+    * Moderate: #ff9800 (Orange) 
+    * Complex: #f44336 (Red)
+  
+  STYLING ARCHITECTURE:
+  1. Layout & Container Styles
+     - Main content container padding and background
+     - Responsive breakpoint management
+  
+  2. Subheader Styling
+     - Gradient underline animation
+     - Typography hierarchy
+     - Text effects and shadows
+  
+  3. Search & Button Section
+     - Capsule-shaped search field
+     - Premium button styling with gradients
+     - Flexbox layout management
+  
+  4. Prompts Grid System
+     - CSS Grid with responsive columns
+     - Card hover effects and transitions
+     - Complexity-based border styling
+  
+  5. Card Component Styling
+     - Header layout with title and complexity chip
+     - Content area with truncated description
+     - Metadata section with views and date
+     - Footer navigation indicator
+  
+  6. Responsive Breakpoints
+     - 1600px+: Large desktop optimization
+     - 1200px: Desktop adjustments  
+     - 1024px: Tablet landscape
+     - 768px: Tablet portrait
+     - 600px: Large mobile
+     - 480px: Mobile
+     - 360px: Small mobile
+  
+  7. Special Features
+     - Landscape mobile optimization
+     - High-resolution display support
+     - Reduced motion accessibility
+     - Print styles
+     - Touch device optimizations
+     - Dark mode support (optional)
+  
+  ANIMATIONS & EFFECTS:
+  - fadeIn: Subheader entrance animation
+  - fadeSlide: Description slide effect
+  - Hover transforms and shadow elevations
+  - Smooth color transitions
+  
+  ACCESSIBILITY FEATURES:
+  - Reduced motion support
+  - High contrast color scheme
+  - Touch-friendly interactive elements
+  - Screen reader compatible structure
+  
+  VERSION: 1.0.0
+  ===========================================================================
+*/
+
+@use 'sass:color';
+
+// prompt-library.component.scss
+
+$primary-color: #512da8; // Purple for Primary (App/Nexus title)
+$simple-color: #2196f3; // Solid Blue
+$moderate-color: #ff9800; // Solid Orange
+$complex-color: #f44336; // Solid Red
+
+// --- Subheader (Prompt Library) ---
+
+.prompt-main-content-container {
+  padding: 1.5rem 2.5rem; // top-bottom 1rem, left-right 2.5rem
+  background-color: #f9f9f9; // optional page background
+}
+.subheader {
+  margin-bottom: 32px;
+  position: relative;
+  padding-bottom: 12px;
+  animation: fadeIn 0.6s ease;
+
+  // Creative gradient bar under the title
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
+    border-radius: 4px;
+    opacity: 0.9;
+  }
+
+  .subtitle {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #222;
+    letter-spacing: -0.5px;
+
+    line-height: 1.2; // Fix compression
+    -webkit-font-smoothing: antialiased; // Smooth text
+    -moz-osx-font-smoothing: grayscale;
+
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    background: linear-gradient(135deg, #333, #111);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .description {
+    font-size: 15px;
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+    opacity: 0.85;
+
+    // animated soft fade text
+    animation: fadeSlide 0.8s ease;
+  }
+}
+
+// Fade in animation
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Description slide effect
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Search + Button Container --- */
+.search-and-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 20px;
+}
+
+.search-field {
+  flex: 1; /* grow to fill remaining space */
+  max-width: 100%;
+}
+
+/* Modern capsule shape */
+.advanced-capsule .mat-mdc-form-field-outline,
+.advanced-capsule .mdc-notched-outline__leading,
+.advanced-capsule .mdc-notched-outline__trailing {
+  border-radius: 22px !important;
+  border-width: 1px !important;
+}
+
+/* Smaller compact padding */
+.advanced-capsule .mat-mdc-input-element {
+  padding: 4px 10px !important;
+  font-size: 13px;
+  height: 10px !important;
+}
+
+/* Prefix icon cleaner and smaller */
+.advanced-capsule .prefix-icon {
+  font-size: 16px;
+  margin-right: 6px;
+  color: #6b7280;
+  padding: 4px;
+  border-radius: 50%;
+  background: #f3f4f6;
+}
+
+/* Remove suffix button spacing entirely */
+.advanced-capsule .mat-mdc-form-field-icon-suffix {
+  margin-right: 6px !important;
+}
+
+/* Focus effect like Linear.app */
+.advanced-capsule.mat-focused .mat-mdc-form-field-outline {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  border-color: #6366f1 !important;
+}
+
+/* Hover effect subtle */
+.advanced-capsule:hover .mat-mdc-form-field-outline {
+  border-color: #c7c9d6;
+}
+
+/* --- Premium Creative Button (Right Side) --- */
+.add-new-button {
+  padding: 0 20px;
+  height: 44px;
+  border-radius: 50px; /* capsule button */
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  flex-shrink: 0; /* do not shrink */
+
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  transition: all 0.25s ease;
+
+  display: flex;
+  align-items: center;
+
+  mat-icon {
+    margin-right: 6px;
+    font-size: 20px;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  }
+}
+
+// --- Prompts Grid and Card Styling ---
+.prompts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+  padding-bottom: 25px;
+}
+
+.prompt-card {
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  // Custom border-left color based on complexity classes
+  &.complex {
+    border-left: 4px solid $complex-color;
+  }
+  &.moderate {
+    border-left: 4px solid $moderate-color;
+  }
+  &.simple {
+    border-left: 4px solid $simple-color;
+  }
+
+  .card-footer-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 16px;
+  }
+
+  .card-navigate-wrapper {
+    width: 28px;
+    height: 28px;
+    background-color: rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateX(2px);
+      background-color: rgba(37, 99, 235, 0.25);
+    }
+
+    svg {
+      display: block; /* removes any extra space */
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  mat-card-header {
+    padding: 16px 16px 8px;
+    align-items: flex-start;
+
+    .prompt-title {
+      font-size: 1.15rem; /* ~18px */
+      font-weight: 700; /* bold for emphasis */
+      margin-bottom: 10px;
+      line-height: 1.4;
+      max-width: 80%;
+      color: #111827; /* dark black/gray for readability */
+      text-shadow: 2px 2px 6px rgba(59, 130, 246, 0.3); /* light blue soft shadow */
+      letter-spacing: 0.5px; /* subtle spacing for modern look */
+      transition: transform 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    /* Hover effect for interactive feel */
+    .prompt-title:hover {
+      transform: translateY(-2px);
+      text-shadow: 3px 3px 8px rgba(59, 130, 246, 0.4); /* slightly stronger shadow on hover */
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .card-action-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #777;
+      margin-left: 10px;
+      margin-top: 2px;
+    }
+
+    .complexity-chip {
+      font-size: 12px;
+      font-weight: 500;
+      min-height: 24px;
+      padding: 0 8px;
+
+      // Apply border-radius to the actual mat-chip element
+      .mat-mdc-chip {
+        border-radius: 16px;
+      }
+
+      &.mat-primary {
+        color: color.adjust($simple-color, $lightness: -10%);
+      }
+
+      &.mat-accent {
+        color: color.adjust($moderate-color, $lightness: -10%);
+      }
+
+      &.mat-warn {
+        color: color.adjust($complex-color, $lightness: -10%);
+      }
+    }
+  }
+
+  mat-card-content {
+    padding: 0 16px 16px;
+
+    .prompt-description {
+      font-size: 0.875rem; /* 14px */
+      color: #4b5563; /* soft dark gray */
+      line-height: 1.6;
+      margin-bottom: 16px;
+
+      /* Truncate text to 2 lines cleanly */
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      /* Subtle spacing for premium look */
+      letter-spacing: 0.3px;
+      transition: color 0.2s ease;
+    }
+
+    /* Hover effect */
+    .prompt-description:hover {
+      color: #1d4ed8; /* soft blue highlight */
+    }
+
+    .prompt-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #374151; /* modern dark gray */
+      margin-top: 12px;
+      gap: 8px;
+    }
+
+    /* Views section with icons */
+    .prompt-meta .views {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .meta-icon {
+        font-size: 16px;
+        width: 18px;
+        height: 18px;
+        color: #3b82f6; /* vibrant soft blue */
+        background: rgba(59, 130, 246, 0.1); /* light blue circular background */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        cursor: default;
+      }
+
+      .meta-icon:hover {
+        transform: scale(1.2);
+        background: rgba(59, 130, 246, 0.2);
+        color: #1d4ed8;
+      }
+
+      .views-count {
+        font-weight: 500;
+        color: #111827;
+      }
+    }
+
+    /* Date styling */
+    .prompt-meta .date {
+      font-weight: 500;
+      color: #6b7280;
+      background: rgba(107, 114, 128, 0.1); /* soft pill background */
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+  }
+}
+
+/* Large Desktop Screens (1600px and above) */
+@media (min-width: 1600px) {
+  .prompt-main-content-container {
+    padding: 2rem 4rem;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .prompts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 28px;
+  }
+}
+
+/* Desktop Screens (1200px and below) */
+@media (max-width: 1200px) {
+  .prompt-main-content-container {
+    padding: 1.5rem 2rem;
+  }
+  
+  .prompts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 22px;
+  }
+}
+
+/* Tablet Devices (1024px and below) */
+@media (max-width: 1024px) {
+  .prompt-main-content-container {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .subheader {
+    margin-bottom: 28px;
+    
+    .subtitle {
+      font-size: 24px;
+    }
+    
+    .description {
+      font-size: 14px;
+    }
+  }
+  
+  .search-and-button {
+    margin-bottom: 28px;
+    gap: 16px;
+  }
+  
+  .prompts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* Small Tablets (768px and below) */
+@media (max-width: 768px) {
+  .prompt-main-content-container {
+    padding: 1rem 1.25rem;
+  }
+  
+  .subheader {
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    
+    .subtitle {
+      font-size: 22px;
+      text-align: center;
+    }
+    
+    .description {
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    &::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  
+  .search-and-button {
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .search-field {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .add-new-button {
+    width: 100%;
+    justify-content: center;
+    height: 42px;
+  }
+  
+  .prompts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  
+  .prompt-card {
+    mat-card-header {
+      padding: 14px 14px 6px;
+      
+      .prompt-title {
+        font-size: 1.1rem;
+        max-width: 75%;
+      }
+    }
+    
+    mat-card-content {
+      padding: 0 14px 14px;
+    }
+  }
+}
+
+/* Large Mobile Devices (600px and below) */
+@media (max-width: 600px) {
+  .prompt-main-content-container {
+    padding: 0.875rem 1rem;
+  }
+  
+  .subheader {
+    margin-bottom: 20px;
+    
+    .subtitle {
+      font-size: 20px;
+    }
+    
+    .description {
+      font-size: 13px;
+    }
+  }
+  
+  .search-and-button {
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+  
+  .add-new-button {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 18px;
+    
+    mat-icon {
+      font-size: 18px;
+      margin-right: 4px;
+    }
+  }
+  
+  .prompts-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .prompt-card {
+    mat-card-header {
+      padding: 12px 12px 4px;
+      
+      .prompt-title {
+        font-size: 1.05rem;
+        max-width: 70%;
+      }
+      
+      .complexity-chip {
+        font-size: 11px;
+        min-height: 22px;
+        padding: 0 6px;
+      }
+    }
+    
+    mat-card-content {
+      padding: 0 12px 12px;
+      
+      .prompt-description {
+        font-size: 0.85rem;
+        -webkit-line-clamp: 3;
+      }
+      
+      .prompt-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+  }
+}
+
+/* Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+  .prompt-main-content-container {
+    padding: 0.75rem 0.75rem;
+  }
+  
+  .subheader {
+    margin-bottom: 18px;
+    
+    .subtitle {
+      font-size: 18px;
+    }
+    
+    .description {
+      font-size: 12px;
+    }
+  }
+  
+  .search-and-button {
+    margin-bottom: 18px;
+  }
+  
+  .add-new-button {
+    height: 38px;
+    font-size: 13px;
+    padding: 0 16px;
+  }
+  
+  .prompts-grid {
+    gap: 14px;
+  }
+  
+  .prompt-card {
+    mat-card-header {
+      padding: 10px 10px 2px;
+      
+      .prompt-title {
+        font-size: 1rem;
+        max-width: 65%;
+      }
+      
+      .card-action-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+    
+    mat-card-content {
+      padding: 0 10px 10px;
+      
+      .prompt-description {
+        font-size: 0.8rem;
+      }
+      
+      .prompt-meta {
+        font-size: 11px;
+        
+        .views .meta-icon {
+          font-size: 14px;
+          width: 16px;
+          height: 16px;
+        }
+        
+        .date {
+          font-size: 10px;
+        }
+      }
+    }
+    
+    .card-footer-wrapper {
+      padding: 6px 10px;
+    }
+    
+    .card-navigate-wrapper {
+      width: 26px;
+      height: 26px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+/* Small Mobile Devices (360px and below) */
+@media (max-width: 360px) {
+  .prompt-main-content-container {
+    padding: 0.5rem 0.5rem;
+  }
+  
+  .subheader {
+    margin-bottom: 16px;
+    
+    .subtitle {
+      font-size: 17px;
+    }
+  }
+  
+  .search-and-button {
+    margin-bottom: 16px;
+  }
+  
+  .add-new-button {
+    height: 36px;
+    font-size: 12px;
+  }
+  
+  .prompts-grid {
+    gap: 12px;
+  }
+  
+  .prompt-card {
+    mat-card-header {
+      .prompt-title {
+        font-size: 0.95rem;
+        max-width: 60%;
+      }
+    }
+    
+    mat-card-content {
+      .prompt-description {
+        -webkit-line-clamp: 4;
+      }
+    }
+  }
+}
+
+/* Landscape Orientation for Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .prompt-main-content-container {
+    padding: 1rem;
+  }
+  
+  .subheader {
+    margin-bottom: 20px;
+  }
+  
+  .search-and-button {
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+  
+  .prompts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
+/* High-resolution Displays */
+@media (min-resolution: 192dpi) {
+  .prompt-main-content-container {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .subheader,
+  .prompt-card,
+  .add-new-button,
+  .card-navigate-wrapper {
+    animation: none;
+    transition: none;
+  }
+  
+  .prompt-card:hover {
+    transform: none;
+  }
+  
+  .add-new-button:hover {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .prompt-main-content-container {
+    background: white !important;
+    padding: 0 !important;
+  }
+  
+  .search-and-button {
+    display: none;
+  }
+  
+  .prompts-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  
+  .prompt-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    
+    .card-footer-wrapper {
+      display: none;
+    }
+    
+    .complexity-chip {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .prompt-card:hover {
+    transform: none;
+  }
+  
+  .add-new-button:hover {
+    transform: none;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  }
+  
+  .card-navigate-wrapper:hover {
+    transform: none;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  @media (max-width: 768px) {
+    .prompt-main-content-container {
+      background-color: #1a1a1a;
+    }
+  }
+}

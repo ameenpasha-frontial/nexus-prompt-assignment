@@ -1,0 +1,158 @@
+<!-- 
+  ===========================================================================
+  LOGIN COMPONENT TEMPLATE - PROMPT NEXUS CHALLENGE
+  ===========================================================================
+  
+  TEMPLATE: login.component.html
+  DESCRIPTION: HTML structure for dual-panel login interface
+  
+  DEVELOPED BY: Ameen Pasha A
+  COMPANY: Stratagile
+  CLIENT: Emplay
+  PROJECT: Prompt Nexus Challenge
+  
+  TEMPLATE STRUCTURE:
+  1. Login Container
+     - Credentials Panel (Left)
+       * Demo access information
+       * Credential cards with copy functionality
+       * Auto-fill button
+     
+     - Login Panel (Right)
+       * Branding section with logo
+       * Login form with validation
+       * Email/password fields
+       * Error message display
+       * Submit button with loading state
+  
+  KEY ELEMENTS:
+  - Material Design components (mat-card, mat-form-field, mat-icon)
+  - Reactive form bindings
+  - Conditional rendering for errors/loading
+  - Copy-to-clipboard functionality
+  - Responsive grid layout
+  
+  VERSION: 1.0.0
+  ===========================================================================
+-->
+
+<div class="login-container">
+  <div class="login-panels">
+    <!-- Left Panel - Credentials -->
+    <div class="credentials-panel">
+      <div class="credentials-content">
+        <div class="credentials-header">
+          <mat-icon class="credentials-icon">security</mat-icon>
+          <h2>Demo Access</h2>
+          <p>Use these credentials to explore the application</p>
+        </div>
+
+        <div class="credentials-display">
+          <div class="credential-card">
+            <div class="credential-header">
+              <mat-icon>person</mat-icon>
+              <span>Email Address</span>
+            </div>
+            <div class="credential-value">
+              <code>{{ HARDCODED_EMAIL }}</code>
+              <button mat-icon-button (click)="copyToClipboard(HARDCODED_EMAIL)" class="copy-btn">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="credential-card">
+            <div class="credential-header">
+              <mat-icon>vpn_key</mat-icon>
+              <span>Password</span>
+            </div>
+            <div class="credential-value">
+              <code>{{ HARDCODED_PASSWORD }}</code>
+              <button mat-icon-button (click)="copyToClipboard(HARDCODED_PASSWORD)" class="copy-btn">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button mat-raised-button (click)="autoFillCredentials()" class="auto-fill-btn">
+          <mat-icon>play_arrow</mat-icon>
+          Auto Fill & Sign In
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Panel - Login Form -->
+    <div class="login-panel">
+      <div class="login-card-wrapper">
+        <mat-card class="login-card">
+          <mat-card-header class="login-header">
+            <div class="logo-section">
+              <div class="logo-container">
+                <mat-icon class="logo-icon">auto_awesome</mat-icon>
+              </div>
+              <h1 class="app-title">
+                Prompt <span class="nexus">Nexus</span>
+              </h1>
+              <p class="challenge">Challenge</p>
+            </div>
+            <p class="welcome-text">Welcome back! Please sign in to your account.</p>
+          </mat-card-header>
+
+          <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+              <!-- Email Field -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" placeholder="Enter your email">
+                <mat-icon matSuffix>email</mat-icon>
+                
+                <mat-error *ngIf="email?.hasError('required')">
+                  Email is required
+                </mat-error>
+                <mat-error *ngIf="email?.hasError('email')">
+                  Please enter a valid email
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Password Field -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password" type="password" placeholder="Enter your password">
+                <mat-icon matSuffix>lock</mat-icon>
+                
+                <mat-error *ngIf="password?.hasError('required')">
+                  Password is required
+                </mat-error>
+                <mat-error *ngIf="password?.hasError('minlength')">
+                  Password must be at least 6 characters
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Error Message -->
+              <div *ngIf="error" class="error-message">
+                <mat-icon>error_outline</mat-icon>
+                <span>{{ error }}</span>
+              </div>
+
+              <!-- Submit Button -->
+              <button 
+                mat-raised-button 
+                color="primary" 
+                type="submit" 
+                class="login-button full-width"
+                [disabled]="isLoading"
+              >
+                <div class="button-content">
+                  <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+                  <span *ngIf="!isLoading">Sign In</span>
+                  <span *ngIf="isLoading">Signing In...</span>
+                </div>
+              </button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,515 @@
+/* 
+  ===========================================================================
+  NAVBAR STYLES - PROMPT NEXUS CHALLENGE
+  ===========================================================================
+  
+  FILE: navbar.component.scss
+  DESCRIPTION: Comprehensive styling for navigation header with
+               responsive design, animations, and interactive states
+  
+  DEVELOPED BY: Ameen Pasha A
+  COMPANY: Stratagile
+  CLIENT: Emplay
+  PROJECT: Prompt Nexus Challenge
+  
+  DESIGN SYSTEM:
+  - Background: #ffffff (White)
+  - Shadows: 0 2px 20px rgba(0, 0, 0, 0.1)
+  - Border: 1px solid rgba(0, 0, 0, 0.05)
+  
+  - Brand Gradients:
+    * Nexus: #667eea to #764ba2 (Purple/Blue)
+    * Challenge: #f093fb to #f5576c (Pink/Red)
+  
+  - Interactive States:
+    * Hover: #667eea (Primary Blue)
+    * Active: #667eea with background highlight
+    * Logout: #ff6b6b (Soft Red)
+  
+  STYLING ARCHITECTURE:
+  1. Top Bar Container
+     - Sticky positioning with high z-index
+     - Flexbox layout management
+     - Background and shadow effects
+     - Responsive padding system
+  
+  2. Brand Identity
+     - Typography hierarchy with responsive scaling
+     - Gradient text effects with animations
+     - Hover transformations and shadows
+     - Text shadow enhancements
+  
+  3. Navigation Links
+     - Flexbox layout with consistent spacing
+     - Hover effects with shine animations
+     - Active state styling with visual indicators
+     - Gradient divider element
+  
+  4. Logout Button
+     - Color-coded interactive states
+     - Smooth transitions and transformations
+     - Accessibility focus states
+     - Icon animations on hover
+  
+  5. Responsive Breakpoints
+     - 1024px: Tablet landscape adjustments
+     - 768px: Tablet portrait with stacked layout
+     - 600px: Large mobile devices
+     - 480px: Mobile devices with compact navigation
+     - 360px: Small mobile optimization
+  
+  6. Special Features
+     - Landscape mobile orientation handling
+     - High-resolution display enhancements
+     - Reduced motion accessibility support
+     - Print style optimizations
+  
+  ANIMATIONS & TRANSITIONS:
+  - Gradient Shift: Animated background position for brand text
+  - Hover Transform: Scale and translate effects on interaction
+  - Shine Effect: Diagonal background sweep on link hover
+  - Smooth State: Consistent transition timing functions
+  
+  INTERACTIVE STATES:
+  - Hover: Color change, transform lift, and background effects
+  - Active: Persistent styling for current route
+  - Focus: Accessible outline and shadow indicators
+  - Active+Hover: Enhanced visual feedback
+  
+  ACCESSIBILITY CONSIDERATIONS:
+  - Sufficient color contrast ratios
+  - Focus indicator styling
+  - Reduced motion alternatives
+  - Semantic color coding for actions
+  
+  MATERIAL DESIGN INTEGRATION:
+  - Consistent icon sizing and spacing
+  - Button interaction patterns
+  - Elevation shadow system
+  - Typography scale adherence
+  
+  PERFORMANCE OPTIMIZATIONS:
+  - CSS transform for smooth animations
+  - Efficient hover effects with pseudo-elements
+  - Minimal DOM manipulations
+  - Optimized repaint and reflow cycles
+  
+  VERSION: 1.0.0
+  ===========================================================================
+*/
+
+// --- Top Header (Prompt Nexus | Library Create) ---
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  .title {
+    font-size: 24px; /* larger for impact */
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin: 0;
+    display: inline-block;
+    position: relative;
+    text-transform: uppercase;
+    line-height: 1.2;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), 0 0 10px rgba(102, 126, 234, 0.3);
+    margin-right: 8px;
+  }
+
+  .title:hover {
+    transform: scale(1.05);
+  }
+
+  .title .nexus {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+    transition: all 0.3s ease;
+    margin-right: 8px;
+  }
+
+  .title .challenge {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+    background-size: 200% 200%;
+    animation: gradientShiftAlt 3s ease infinite;
+    transition: all 0.3s ease;
+  }
+
+  /* Gradient animations */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes gradientShiftAlt {
+    0% {
+      background-position: 100% 50%;
+    }
+    50% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .header-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+
+    // Gradient divider under links
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+      border-radius: 2px;
+      opacity: 0.3;
+    }
+
+    .header-link {
+      position: relative;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+
+      // Hover shine effect
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 100%;
+        background: rgba(102, 126, 234, 0.1);
+        transform: translate(-50%, -50%) rotate(45deg);
+        transition: width 0.4s ease;
+        z-index: 0;
+      }
+
+      &:hover::before {
+        width: 200%;
+      }
+
+      &:hover {
+        color: #667eea;
+        transform: translateY(-3px) scale(1.05);
+        z-index: 1;
+      }
+
+      &:first-child:hover {
+        color: #667eea;
+      }
+
+      &:last-child {
+        font-weight: 700;
+        color: #000;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+
+        &:hover {
+          box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+          transform: translateY(-2px) scale(1.05);
+        }
+      }
+    }
+    .header-link.active-tab {
+      color: #667eea !important;
+      font-weight: 700;
+      transform: translateY(-3px);
+      background: rgba(102, 126, 234, 0.08);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+  }
+}
+
+.logout-btn {
+  color: #ff6b6b; /* Soft red color */
+  background-color: rgba(255, 107, 107, 0.1); /* Very light red background */
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Hover effects */
+  &:hover {
+    color: #ffffff;
+    background-color: #ff6b6b; /* Solid soft red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3), 0 0 0 1px rgba(255, 107, 107, 0.1);
+  }
+
+  /* Active state */
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(255, 107, 107, 0.2), 0 0 0 1px rgba(255, 107, 107, 0.1);
+  }
+
+  /* Focus state for accessibility */
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3), 0 2px 6px rgba(255, 107, 107, 0.2);
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  /* Icon animation on hover */
+  &:hover mat-icon {
+    transform: scale(1.1) translateX(-1px);
+  }
+}
+
+/* Tablet Devices (1024px and below) */
+@media (max-width: 1024px) {
+  .top-bar {
+    padding: 0.875rem 1rem;
+    
+    .title {
+      font-size: 22px;
+      letter-spacing: -0.3px;
+    }
+    
+    .header-links {
+      gap: 20px;
+      
+      .header-link {
+        font-size: 15px;
+        padding: 7px 14px;
+      }
+    }
+  }
+}
+
+/* Small Tablets (768px and below) */
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    gap: 15px;
+    
+    .title {
+      font-size: 20px;
+      text-align: center;
+      margin-right: 0;
+    }
+    
+    .header-links {
+      gap: 15px;
+      
+      &::after {
+        bottom: -6px;
+      }
+      
+      .header-link {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+  }
+  
+  .logout-btn {
+    width: 36px;
+    height: 36px;
+    
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+/* Large Mobile Devices (600px and below) */
+@media (max-width: 600px) {
+  .top-bar {
+    padding: 0.625rem 0.875rem;
+    gap: 12px;
+    
+    .title {
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
+    
+    .header-links {
+      gap: 12px;
+      
+      .header-link {
+        font-size: 13px;
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+/* Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+  .top-bar {
+    padding: 0.5rem 0.75rem;
+    
+    .title {
+      font-size: 16px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), 0 0 6px rgba(102, 126, 234, 0.2);
+    }
+    
+    .header-links {
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      
+      &::after {
+        display: none; /* Hide gradient line on very small screens */
+      }
+      
+      .header-link {
+        font-size: 12px;
+        padding: 4px 8px;
+        
+        &:hover {
+          transform: translateY(-1px) scale(1.02); /* Reduce hover effect on mobile */
+        }
+      }
+    }
+  }
+  
+  .logout-btn {
+    width: 32px;
+    height: 32px;
+    
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+    
+    &:hover {
+      transform: translateY(-1px); /* Reduce hover lift on mobile */
+    }
+  }
+}
+
+/* Small Mobile Devices (360px and below) */
+@media (max-width: 360px) {
+  .top-bar {
+    padding: 0.5rem;
+    
+    .title {
+      font-size: 15px;
+    }
+    
+    .header-links {
+      gap: 6px;
+      
+      .header-link {
+        font-size: 11px;
+        padding: 3px 6px;
+      }
+    }
+  }
+}
+
+/* Landscape Orientation for Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .top-bar {
+    padding: 0.5rem 1rem;
+    position: relative; /* Change from sticky if needed */
+    
+    .title {
+      font-size: 16px;
+    }
+  }
+}
+
+/* High-resolution Displays */
+@media (min-resolution: 192dpi) {
+  .top-bar {
+    .title {
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 0 12px rgba(102, 126, 234, 0.4);
+    }
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .top-bar {
+    .title,
+    .header-link,
+    .logout-btn {
+      transition: none;
+      animation: none;
+    }
+    
+    .title:hover,
+    .header-link:hover,
+    .logout-btn:hover {
+      transform: none;
+    }
+  }
+}
+
+/* Print Styles */
+@media print {
+  .top-bar {
+    background: white !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #ccc !important;
+    
+    .title .nexus,
+    .title .challenge {
+      -webkit-text-fill-color: black !important;
+      background: none !important;
+    }
+    
+    .header-links::after {
+      background: #ccc !important;
+    }
+  }
+  
+  .logout-btn {
+    display: none !important;
+  }
+}

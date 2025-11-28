@@ -1,0 +1,95 @@
+<!-- 
+  ===========================================================================
+  NAVBAR TEMPLATE - PROMPT NEXUS CHALLENGE
+  ===========================================================================
+  
+  TEMPLATE: navbar.component.html
+  DESCRIPTION: HTML structure for main application navigation header
+               with branding, navigation links, and user controls
+  
+  DEVELOPED BY: Ameen Pasha A
+  COMPANY: Stratagile
+  CLIENT: Emplay
+  PROJECT: Prompt Nexus Challenge
+  
+  TEMPLATE STRUCTURE:
+  1. Top Bar Container
+     - Sticky positioning for persistent navigation
+     - Flexbox layout for responsive alignment
+     - Background and shadow styling
+  
+  2. Brand Identity Section
+     - "Prompt Nexus Challenge" title with gradient animations
+     - Hover effects and transformations
+     - Responsive typography scaling
+  
+  3. Navigation Links Section
+     - Dashboard route link with active state
+     - Create route link with active state
+     - RouterLinkActive directive for current page highlighting
+  
+  4. User Controls Section
+     - Logout button with icon
+     - Hover and focus states
+     - Accessibility title attribute
+  
+  KEY ELEMENTS:
+  - RouterLink directives for SPA navigation
+  - RouterLinkActive for active route styling
+  - Material Design icons for visual consistency
+  - Semantic button element for logout action
+  
+  INTERACTIVE FEATURES:
+  - Hover transformations on brand and links
+  - Active tab highlighting with visual feedback
+  - Logout button with color-coded interaction states
+  - Smooth transitions for all interactive elements
+  
+  ACCESSIBILITY:
+  - Semantic HTML structure
+  - Descriptive link text
+  - Title attribute for icon buttons
+  - Keyboard navigation support
+  - Focus management
+  
+  RESPONSIVE BEHAVIOR:
+  - Desktop: Horizontal layout with full navigation
+  - Tablet: Adjusted spacing and font sizes
+  - Mobile: Stacked layout with centered alignment
+  - Small Mobile: Compact navigation with wrapping
+  
+  VERSION: 1.0.0
+  ===========================================================================
+-->
+
+<div class="top-bar">
+  <h1 class="title">
+    Prompt <span class="nexus">Nexus</span> <span class="challenge">Challenge</span>
+  </h1>
+
+  <div class="header-links">
+
+    <!-- Dashboard -->
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active-tab"
+      class="header-link"
+    >
+      Dashboard
+    </a>
+
+    <!-- Create -->
+    <a
+      routerLink="/add"
+      routerLinkActive="active-tab"
+      class="header-link"
+    >
+      Create
+    </a>
+
+    <button mat-icon-button class="logout-btn" (click)="logout()" title="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+
+  </div>
+</div>

@@ -1,0 +1,255 @@
+  <!-- 
+  ===========================================================================
+  ADD PROMPT TEMPLATE - PROMPT NEXUS CHALLENGE
+  ===========================================================================
+  
+  TEMPLATE: add-prompt.component.html
+  DESCRIPTION: HTML structure for prompt creation form with two-column layout
+               and interactive complexity visualization
+  
+  DEVELOPED BY: Ameen Pasha A
+  COMPANY: Stratagile
+  CLIENT: Emplay
+  PROJECT: Prompt Nexus Challenge
+  
+  TEMPLATE STRUCTURE:
+  1. Navigation Bar
+     - AppNavbar component for consistent navigation
+  
+  2. Main Content Container
+     - Back navigation link to library
+     - Create section with form and tips
+  
+  3. Two-Column Layout
+     - Left Column: Form fields (Title, Description, Complexity)
+     - Right Column: Tips and optimization guide
+  
+  4. Form Sections
+     - Title field with character counting
+     - Description textarea with character limits
+     - Complexity control with visual slider
+     - Centered create button with validation
+  
+  5. Tips Sidebar
+     - Prompt optimization guidelines
+     - Interactive tips with icons
+     - Quick tip hint box
+  
+  KEY ELEMENTS:
+  - Reactive form bindings with formGroup
+  - Real-time character count display
+  - Dynamic complexity visualization
+  - Material Design form controls
+  - Responsive grid layout
+  - Sticky tips sidebar on desktop
+  
+  FORM VALIDATION:
+  - Title: Required, minLength(3), maxLength(50)
+  - Description: Required, minLength(20), maxLength(500)  
+  - Complexity: Required, min(1), max(10)
+  
+  INTERACTIVE FEATURES:
+  - Real-time complexity scale updates
+  - Dynamic color coding based on complexity
+  - Character count progress indicators
+  - Hover effects and transitions
+  
+  VERSION: 1.0.0
+  ===========================================================================
+-->
+  
+  <app-navbar></app-navbar>
+
+  <div class="add-prompt-content">
+    <div class="back-link">
+      <a routerLink="/" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Library
+      </a>
+    </div>
+
+    <div class="create-section">
+      <div class="section-header">
+        <h2 class="section-title">Create New Prompt</h2>
+        <p class="section-description">Add a new AI image generation prompt to your library</p>
+      </div>
+
+      <form [formGroup]="promptForm" class="prompt-form">
+        <div class="form-layout-two-column">
+          <div class="column-left-fields">
+            <div class="form-section compact">
+              <div class="form-header">
+                <h3 class="form-section-title">Title</h3>
+                <div class="character-count">
+                  {{ promptForm.get('title')?.value?.length || 0 }}/50
+                </div>
+              </div>
+              <mat-form-field appearance="outline" class="full-width enhanced-field">
+                <input
+                  matInput
+                  formControlName="title"
+                  placeholder="e.g., Cyberpunk City Scene"
+                  maxlength="50"
+                />
+                <mat-icon matSuffix class="field-icon">title</mat-icon>
+                <mat-error *ngIf="promptForm.get('title')?.hasError('required')">
+                  Title is required
+                </mat-error>
+                <mat-error *ngIf="promptForm.get('title')?.hasError('minlength')">
+                  Min 3 characters
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-section prompt-content-section compact">
+              <div class="form-header">
+                <h3 class="form-section-title">Prompt Content</h3>
+                <div class="character-count">
+                  {{ promptForm.get('description')?.value?.length || 0 }}/500
+                </div>
+              </div>
+              <mat-form-field appearance="outline" class="full-width textarea-field enhanced-field">
+                <textarea
+                  matInput
+                  formControlName="description"
+                  placeholder="Describe your image generation prompt in detail..."
+                  rows="10"
+                  maxlength="500"
+                ></textarea>
+                <mat-icon matSuffix class="field-icon">description</mat-icon>
+                <mat-hint align="end"
+                  >{{ promptForm.get('description')?.value?.length || 0 }}/500 characters</mat-hint
+                >
+                <mat-error *ngIf="promptForm.get('description')?.hasError('required')">
+                  Description is required
+                </mat-error>
+                <mat-error *ngIf="promptForm.get('description')?.hasError('minlength')">
+                  Min 20 characters
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-section compact">
+              <h3 class="form-section-title">Complexity Level</h3>
+              <div class="complexity-control-slider">
+                <mat-form-field appearance="outline" class="complexity-input-field enhanced-field">
+                  <mat-label>Rating (1-10)</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    formControlName="complexity"
+                    min="1"
+                    max="10"
+                    placeholder="1"
+                  />
+                  <mat-icon matSuffix class="field-icon">speed</mat-icon>
+                  <mat-error *ngIf="promptForm.get('complexity')?.hasError('required')">
+                    Rating is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      promptForm.get('complexity')?.hasError('min') ||
+                      promptForm.get('complexity')?.hasError('max')
+                    "
+                  >
+                    Must be between 1 and 10
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="complexity-visual-display">
+                  <div class="complexity-scale">
+                    <div class="scale-labels">
+                      <span>Simple</span>
+                      <span>Moderate</span>
+                      <span>Complex</span>
+                    </div>
+                    <div class="scale-bar">
+                      <div
+                        class="scale-fill"
+                        [ngClass]="getComplexityClass()"
+                        [style.width.%]="(promptForm.get('complexity')?.value || 0) * 10"
+                      ></div>
+                    </div>
+                    <div class="complexity-category">
+                      <span class="category-badge" [ngClass]="getComplexityClass()">
+                        <mat-icon class="badge-icon">label</mat-icon>
+                        {{ getComplexityText() }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column-right-tips">
+            <div class="tips-section">
+              <div class="tips-header">
+                <mat-icon class="tips-icon">lightbulb</mat-icon>
+                <h3 class="tips-title">Prompt Optimization Guide</h3>
+              </div>
+              <ul class="tips-list">
+                <li class="tip-item">
+                  <div class="tip-icon">🎯</div>
+                  <div class="tip-content">
+                    <strong>Be Specific:</strong> Clarity is key. Define subjects, actions, and
+                    settings precisely.
+                  </div>
+                </li>
+                <li class="tip-item">
+                  <div class="tip-icon">🎨</div>
+                  <div class="tip-content">
+                    <strong>Style & Mood:</strong> Specify artistic styles (e.g., "digital
+                    painting," "cinematic light").
+                  </div>
+                </li>
+                <li class="tip-item">
+                  <div class="tip-icon">📐</div>
+                  <div class="tip-content">
+                    <strong>Technical Details:</strong> Include resolution and composition (e.g.,
+                    "ultra-detailed 8k," "wide-angle shot").
+                  </div>
+                </li>
+                <li class="tip-item">
+                  <div class="tip-icon">🚫</div>
+                  <div class="tip-content">
+                    <strong>Negative Prompting:</strong> Mention what you <em>don't</em> want for
+                    better results.
+                  </div>
+                </li>
+                <li class="tip-item">
+                  <div class="tip-icon">🏷️</div>
+                  <div class="tip-content">
+                    <strong>Keywords:</strong> Use comma-separated lists of descriptive words.
+                  </div>
+                </li>
+              </ul>
+              <div class="hint-box">
+                <div class="hint-header">
+                  <mat-icon>info</mat-icon>
+                  <span>Quick Tip</span>
+                </div>
+                <p>
+                  The complexity level helps others gauge the prompt's detail (1=Simple,
+                  10=Complex).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions-center">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="!promptForm.valid"
+            (click)="savePrompt()"
+            class="create-button-center"
+          >
+            <mat-icon>add_circle</mat-icon>
+            Create Prompt
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

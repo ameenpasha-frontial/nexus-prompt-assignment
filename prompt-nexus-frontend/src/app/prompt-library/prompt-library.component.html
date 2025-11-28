@@ -1,0 +1,140 @@
+
+  <!-- 
+  ===========================================================================
+  PROMPT LIBRARY TEMPLATE - PROMPT NEXUS CHALLENGE
+  ===========================================================================
+  
+  TEMPLATE: prompt-library.component.html
+  DESCRIPTION: HTML structure for prompt library with search, grid layout,
+               and interactive prompt cards
+  
+  DEVELOPED BY: Ameen Pasha A
+  COMPANY: Stratagile
+  CLIENT: Emplay
+  PROJECT: Prompt Nexus Challenge
+  
+  TEMPLATE STRUCTURE:
+  1. Navigation Bar
+     - AppNavbar component integration
+  
+  2. Main Content Container
+     - Subheader with title and description
+     - Search and action button section
+     - Prompts grid with dynamic cards
+  
+  3. Search & Actions Section
+     - Material search field with capsule styling
+     - Add New Prompt button with router link
+  
+  4. Prompts Grid
+     - Dynamic card generation using *ngFor
+     - Complexity-based visual styling (simple/moderate/complex)
+     - Click navigation to prompt details
+     - Metadata display (views, date)
+     - Interactive hover effects
+  
+  KEY ELEMENTS:
+  - Reactive search with ngModel two-way binding
+  - Conditional CSS classes for complexity levels
+  - Custom complexity color pipe integration
+  - View count formatting
+  - SVG arrow icon for navigation indicator
+  - Material Design component integration
+  
+  RESPONSIVE FEATURES:
+  - CSS Grid layout with auto-fill columns
+  - Mobile-first breakpoints
+  - Flexible card sizing (minmax(380px, 1fr))
+  - Touch-optimized interactions
+  
+  VERSION: 1.0.0
+  ===========================================================================
+-->
+
+  <app-navbar></app-navbar>
+  <div class="prompt-main-content-container">
+    <!-- Subheader -->
+    <div class="subheader">
+      <h2 class="subtitle">Prompt Library</h2>
+      <p class="description">Manage and organize your AI image generation prompts</p>
+    </div>
+
+    <!-- Search and Add Button -->
+    <div class="search-and-button">
+      <mat-form-field appearance="outline" class="search-field advanced-capsule">
+        <input
+          matInput
+          placeholder="Search prompts..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterPrompts()"
+        />
+        <button mat-icon-button matSuffix>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- OPEN MODAL BUTTON -->
+      <button mat-flat-button color="primary" class="add-new-button" routerLink="/add">
+        <mat-icon>add</mat-icon>
+        Add New Prompt
+      </button>
+    </div>
+
+    <!-- Prompts Grid -->
+    <div class="prompts-grid">
+      <mat-card
+        *ngFor="let prompt of filteredPrompts"
+        class="prompt-card"
+        [class.complex]="prompt.complexityLevel >= 7"
+        [class.moderate]="prompt.complexityLevel >= 4 && prompt.complexityLevel <= 6"
+        [class.simple]="prompt.complexityLevel <= 3"
+        (click)="navigateToPromptDetail(prompt.id + '', 0)"
+      >
+        <mat-card-header>
+          <mat-card-title class="prompt-title">{{ prompt.title }}</mat-card-title>
+          <div class="spacer"></div>
+          <mat-chip
+            selected
+            class="complexity-chip"
+            [style.background-color]="prompt.complexity | complexityToColor"
+            [style.color]="'black'"
+          >
+            {{ prompt.complexity }} ({{ prompt.complexityLevel }}/10)
+          </mat-chip>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="prompt-description">{{ prompt.description }}</p>
+
+          <div class="prompt-meta">
+            <div class="views">
+              <mat-icon class="meta-icon">visibility</mat-icon>
+              <span>{{ formatViews(prompt.views) }} views</span>
+            </div>
+            <span class="date">{{ prompt.date }}</span>
+          </div>
+        </mat-card-content>
+
+        <!-- Wrapper for new row at bottom -->
+        <div class="card-footer-wrapper">
+          <div class="card-navigate-wrapper">
+            <!-- Inline SVG for perfect centering -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#2563eb"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>

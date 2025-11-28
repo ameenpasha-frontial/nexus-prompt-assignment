@@ -1,0 +1,215 @@
+<!-- 
+  ===========================================================================
+  PROMPT DETAIL TEMPLATE - PROMPT NEXUS CHALLENGE
+  ===========================================================================
+  
+  TEMPLATE: prompt-detail.component.html
+  DESCRIPTION: HTML structure for detailed prompt view with multiple states,
+               statistical cards, and interactive elements
+  
+  DEVELOPED BY: Ameen Pasha A
+  COMPANY: Stratagile
+  CLIENT: Emplay
+  PROJECT: Prompt Nexus Challenge
+  
+  TEMPLATE STRUCTURE:
+  1. Navigation Bar
+     - AppNavbar component for consistent application navigation
+  
+  2. Main Content Container
+     - Back navigation button
+     - Multi-state content area
+  
+  3. State Management Sections
+     - Loading State: Animated spinner with message
+     - Error State: Detailed error information with debugging data
+     - Content State: Full prompt details display
+  
+  4. Content Layout
+     - Header: Title and metadata information
+     - Stats Row: Three statistical cards (Complexity, Views, Days Ago)
+     - Prompt Card: Main content display with copy functionality
+     - Complexity Card: Visual scale and classification
+  
+  5. Interactive Elements
+     - Back button with hover effects
+     - Copy prompt button with clipboard integration
+     - Responsive complexity visualization
+  
+  KEY ELEMENTS:
+  - Conditional rendering based on component state
+  - Dynamic complexity class binding
+  - Real-time view count formatting
+  - Responsive grid layout for statistics
+  - Material Design card components
+  
+  STATE MANAGEMENT:
+  - isLoading: Shows loading spinner
+  - error: Displays error message and details
+  - prompt: Shows full content when data is available
+  
+  RESPONSIVE FEATURES:
+  - Mobile-first responsive design
+  - Flexible grid layouts
+  - Adaptive typography and spacing
+  - Touch-friendly interactive elements
+  
+  ACCESSIBILITY:
+  - Semantic HTML structure
+  - Proper heading hierarchy
+  - Descriptive button labels
+  - Color contrast compliance
+  
+  VERSION: 1.0.0
+  ===========================================================================
+-->
+<div class="container">
+  <app-navbar></app-navbar>
+
+  <!-- Show loading state -->
+  <div class="prompt-detailed-content">
+    <div class="back-link">
+      <button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Library
+      </button>
+    </div>
+    <div *ngIf="isLoading" class="loading">
+      <div class="loading-spinner">
+        <mat-icon>auto_awesome</mat-icon>
+        <p>Loading prompt data...</p>
+      </div>
+    </div>
+
+    <!-- Show error state -->
+    <div *ngIf="error && !isLoading" class="error">
+      <div class="error-content">
+        <mat-icon>error_outline</mat-icon>
+        <h3>Something went wrong</h3>
+        <p class="error-message">{{ error }}</p>
+        <div class="error-details">
+          <p *ngIf="routeId"><strong>ID:</strong> {{ routeId }}</p>
+          <p *ngIf="apiUrl"><strong>API:</strong> {{ apiUrl }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Show data when prompt is available -->
+    <div *ngIf="prompt && !isLoading && !error" class="prompt-content">
+      <!-- Header -->
+      <div class="header">
+        <h1 class="title">{{ prompt.title }}</h1>
+
+        <div class="meta-info">
+          <div class="meta-item">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ prompt.date }}</span>
+          </div>
+
+          <div class="meta-item">
+            <mat-icon>visibility</mat-icon>
+            <span>{{ formatViews(prompt.views) }} views</span>
+          </div>
+
+          <div class="complexity-badge" [class]="getComplexityClass(prompt.complexity)">
+            <span>{{ prompt.complexityText }} ({{ prompt.complexity }}/10)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-content">
+            <div class="stat-icon complexity">
+              <mat-icon>speed</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">{{ prompt.complexity }}/10</div>
+              <div class="stat-label">Complexity</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-content">
+            <div class="stat-icon views">
+              <mat-icon>visibility</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">{{ formatViews(prompt.views) }}</div>
+              <div class="stat-label">Views</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-content">
+            <div class="stat-icon days">
+              <mat-icon>calendar_today</mat-icon>
+            </div>
+            <div class="stat-info">
+              <div class="stat-value">{{ getDaysAgo(prompt.created_at) }}</div>
+              <div class="stat-label">Days Ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prompt Card -->
+      <mat-card class="prompt-card">
+        <mat-card-header>
+          <div class="card-title">
+            <mat-icon>format_quote</mat-icon>
+            <h2>Prompt Content</h2>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="prompt-container">
+            <pre class="prompt-text">{{ prompt.content }}</pre>
+          </div>
+
+          <div class="actions">
+            <button mat-raised-button color="primary" class="action-btn" (click)="copyPrompt()">
+              <mat-icon>content_copy</mat-icon>
+              Copy Prompt
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Complexity Scale -->
+      <mat-card class="complexity-card">
+        <mat-card-header>
+          <div class="card-title">
+            <mat-icon>track_changes</mat-icon>
+            <h2>Complexity Scale</h2>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="complexity-visual">
+            <div class="complexity-bar">
+              <div class="bar-background">
+                <div
+                  class="bar-fill"
+                  [style.width.%]="prompt.complexity * 10"
+                  [class]="getComplexityClass(prompt.complexity)"
+                ></div>
+              </div>
+              <div class="complexity-labels">
+                <span>Simple</span>
+                <span>Moderate</span>
+                <span>Complex</span>
+              </div>
+            </div>
+            <div class="complexity-value">
+              Current: {{ prompt.complexity }}/10 - {{ prompt.complexityText }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
